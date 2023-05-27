@@ -10,71 +10,49 @@ class SILab2Test {
 
     @Test
     void everyBranch() {
-        //1
-        User user = null;
-        List<User> allUsers = new ArrayList<>();
+        RuntimeException ex;
 
-        assertThrows(RuntimeException.class, ()->{
-            SILab2.function(user,allUsers);
-        });
+        //1
+        ex = assertThrows(RuntimeException.class, ()->SILab2.function(null,null));
+        assertTrue(ex.getMessage().contains("Mandatory information missing!"));
 
         //2
-        User user1 = new User(null,"Test1234!","test@test.test");
-        User user2 = new User("test@test.test","Test1234!","test@test.test");
-        User user3 = new User("test@test.test1","Test1234!","test@test.test1");
-        List<User> allUsers1 = Arrays.asList(user2,user3);
-
-        assertFalse(SILab2.function(user1,allUsers1));
+        assertFalse(SILab2.function(new User(null,"Test1234!","test@test.test"),
+                Arrays.asList(
+                        new User("test@test.test","Test1234!","test@test.test"),
+                        new User("test@test.test1","Test1234!","test@test.test1"))));
 
         //3
-        User user4 = new User("username","Test1!","test.test");
-        List<User> allUsers2 = Arrays.asList();
-
-        assertFalse(SILab2.function(user4,allUsers2));
+        assertFalse(SILab2.function(new User("username","Test1!","test.test"),null));
 
         //4
-        User user5 = new User("username","Test1234","test.test");
-        List<User> allUsers3 = Arrays.asList();
-
-        assertFalse(SILab2.function(user5,allUsers3));
+        assertFalse(SILab2.function(new User("username","Test1234","test.test"),null));
 
         //5
-        User user6 = new User("username","Test 1234","test.test");
-        List<User> allUsers4 = Arrays.asList();
-
-        assertFalse(SILab2.function(user6,allUsers4));
+        assertFalse(SILab2.function(new User("username","Test 1234","test.test"),null));
 
     }
 
     @Test
     void multipleCondition(){
-
-        List<User> allUsers = new ArrayList<>();
+        RuntimeException ex;
 
         //1
-        User user = null;
-        assertThrows(RuntimeException.class, ()->{
-            SILab2.function(user,allUsers);
-        });
+        ex = assertThrows(RuntimeException.class, ()->SILab2.function(null,null));
+        assertTrue(ex.getMessage().contains("Mandatory information missing!"));
 
         //2
-        User user1 = new User("username", null,null);
-
-        assertThrows(RuntimeException.class, ()->{
-            SILab2.function(user1,allUsers);
-        });
+        ex = assertThrows(RuntimeException.class, ()->
+            SILab2.function(new User("username", null,null),null));
+        assertTrue(ex.getMessage().contains("Mandatory information missing!"));
 
         //3
-        User user2 = new User("username", "Test123!",null);
-
-        assertThrows(RuntimeException.class, ()->{
-            SILab2.function(user2,allUsers);
-        });
+        ex = assertThrows(RuntimeException.class, ()->
+                SILab2.function(new User("username", "Test123!",null),null));
+        assertTrue(ex.getMessage().contains("Mandatory information missing!"));
 
         //4
-        User user3 = new User("username", "Test","test@test");
-
-        assertFalse(SILab2.function(user3,allUsers));
+        assertFalse(SILab2.function(new User("username", "Test","test@test"),null));
 
     }
 }
